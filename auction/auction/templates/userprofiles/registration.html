@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+{% if request.session.django_language == 'ar' %}
+    <html dir="rtl">
+{% else %}
+    <html dir="ltr">
+{% endif %}
+    <head>
+        {% load i18n %}
+        <title>  Shoghlanah </title>
+        <link rel="shortcut icon" href="{{ STATIC_URL }}img/favicon.ico" />
+        <link rel="stylesheet" href="{{STATIC_URL}}css/jquery-ui-1.8.20.custom.css">
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap.min.css"/>
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery.validate.css" />
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/jquery-ui/jquery-ui-1.8.16.custom.css"/>
+        <link href='http://fonts.googleapis.com/css?family=Raleway:300,400,200,600' rel='stylesheet' type='text/css'>
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/fonts.css"/>
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-edits.css"/>
+        {% if request.session.django_language == 'ar' %}
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/bootstrap-edits-rtl.css"/>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/css/master.css"/>
+        {% if request.session.django_language == 'ar' %}
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/css-rtl/master-rtl.css"/>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/css/registration.css"/>
+        {% if request.session.django_language == 'ar' %}
+            <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}assets/css-rtl/registration-rtl.css"/>
+        {% endif %}
+        <link rel="stylesheet" type="text/css" href="{{STATIC_URL}}css/shadowbox/shadowbox.css">
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-1.8.0.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery-ui-1.8.23.custom.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/jquery.placeholder.min.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/noty/jquery.noty.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/noty/layouts/top.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/noty/themes/default.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/shadowbox/shadowbox.js"></script>
+        <script type="text/javascript" src="{{STATIC_URL}}js/bootstrap.min.js"></script>
+        <script type="text/javascript">
+            Shadowbox.init();
+            $(document).ready(function() {
+                    {% if pass_reset %}
+                    var n = noty({
+                        layout: 'top',
+                        text: "{% trans 'Your password has been successfully updated' %}",
+                        type: 'success',
+                        timeout: '3500'
+                    });
+                     {% endif %}
+                    {% if email_sent %}
+                        var n = noty({
+                            layout: 'top',
+                            text: '{% trans "An e-mail was sent to you, including a link to continue resetting your password" %}',
+                            type: 'success',
+                            timeout: '4000'
+                        });
+                     {% endif %}
+                $('input, textarea').placeholder();
+                $('#login-btn').click(function() {
+                    var hasError = false;
+                    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                    var emailaddressVal = $("#username").val();
+                    if(emailaddressVal == '') {
+                        $('#login-info').html('{% trans "Please Enter Your Email." %}');
+                        hasError = true;
+                    }
+             
+                    else if(!emailReg.test(emailaddressVal)) {
+                        $('#login-info').html('{% trans "Enter A Valid Email Address." %}');
+                        hasError = true;
+                    }
+
+                    var password = $("#password").val();
+                    if(password == '') {
+                        $('#login-info').html('{% trans "Please Enter Your Password." %}');
+                        hasError = true;
+                    }
+             
+                    if(hasError == true) { return false; }
+                });
+
+
+                $('#invitation-btn').click(function() {
+                    var hasError = false;
+                    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+                    var emailaddressVal = $("#email").val();
+                    if(emailaddressVal == '') {
+                        $('#invitation-info').html('{% trans "Please Enter Your Email." %}');
+                        hasError = true;
+                    }
+             
+                    else if(!emailReg.test(emailaddressVal)) {
+                        $('#invitation-info').html('{% trans "Enter A Valid Email Address." %}');
+                        hasError = true;
+                    }
+                    if(hasError == true) { return false; }
+        _kmq.push(['record', 'Requested Invitation to join ',{'User':emailaddressVal}]);
+        _gaq.push(['_trackEvent', 'Registration', 'Requested Invitation', emailaddressVal]);        
+                });
+            });
+        </script>
+    </head>
+
+    <body style="background-image: url('{{ STATIC_URL }}img/login/login{% if pic_num %}{{pic_num}}.png');{% else %}1.png');{% endif %}">
+        <div class="title">
+        </div>
+
+        <div class="form well" id="login-form">
+            <label class="signup-info" id="login-info" style="width:197px;">
+                {{ error_message }}
+            </label>
+            <label class="label-login">{% trans "Sign Up" %}</label>
+            <hr class="divider-grey"/>
+            <form action="/log_in/" method="post" class="form-login">
+                {% csrf_token %}
+                <input id="username" class="username" type="text" name="username" maxlength="75" placeholder='{% trans "Email" %}' style="background-image: url({{STATIC_URL}}assets/img/01.png)"/>
+                <input id="password" type="password" name="password" maxlength="75" placeholder='{% trans "Password" %}' style="background-image: url({{STATIC_URL}}assets/img/02.png);">
+                <input class="btn-signin" id="login-btn" type="submit" value="{% trans 'Register' %}">
+                <input type="hidden" name="next" value="/" />
+            </form>
+            <br/>
+            <br/>
+            <hr class="divider-grey"/>
+        </div>
+    </body>
+</html>
+

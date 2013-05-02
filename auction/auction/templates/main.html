@@ -1,0 +1,69 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" class="cufon-active cufon-ready">
+<head>
+{% block meta %}
+<title>Auction</title> {% endblock %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/main-ltr.css" type="text/css" media="screen" />
+{% block styles %} {% endblock %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/cufon.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/Museo_Sans_100_250.font.js"></script>
+<script>
+	Cufon.replace('.title h3');
+</script>
+
+{% block scripts %} {% endblock %}
+</head>
+{% load i18n %}
+<body>
+	<div id="header">
+		<div id="header-content">
+			<div id="nav">
+				<ul>
+                    <li><a href="/">Home</a></li>
+					<li>{% trans "How it Works?" %}</li> {% if not user.is_authenticated %}
+					<li><a href="/register/">Register</a><span class="arrow">&rarr;</li> 
+					{% else %}
+					<li><a href="/logout_view/">Logout</a><span class="arrow">&rarr;</li> 
+					{% endif %}
+				</ul>
+			</div>
+			<p class="slogan">Auction</p>
+		</div>
+	</div>
+		{% if not user.is_authenticated %}
+	<div id="wrapper">
+		<div id="loginwrapper">
+			<div id="login">
+				<form action="/login/" method="post" id="UserLoginForm">
+				{%  csrf_token %}
+					<h1 class="title">Log in with your Auction account, or <a href="/register/">Sign Up</a><span class="arrow">&rarr;</h1>
+					<p>
+						<span class="field"> <input type="text" name="username" id="username" title="Username" />
+						</span>
+					</p>
+					<p>
+						<span class="field"><input type="password" name="password" class="password" title="Password" />
+		                <a class="forget-pass" href="{% url auth_password_reset %}">{% trans "Forgot your password?" %}</a>
+		                </span>
+					</p>
+					<div class="submitdiv">
+						<input type="submit" value="Login &rarr;">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+	{% else %}
+	{% if user.is_superuser %}
+	{% for item in dec %}
+	    <p>
+	    {{item}}
+	    </p>
+	{% endfor %}
+		{% else %}
+	Do you really want to to place bids and auction?...<div>Here is your encrypted Card Number</div> {{userprofile.credit_number}}
+		{% endif %}
+	{% endif %}
+</body>
+</html>

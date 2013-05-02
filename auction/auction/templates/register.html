@@ -1,0 +1,171 @@
+<!doctype html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en" class="cufon-active cufon-ready">
+<head>
+{% block meta %}
+<title>Auction</title> {% endblock %}
+<link rel="stylesheet" href="{{STATIC_URL}}css/main-ltr.css" type="text/css" media="screen" />
+{% block styles %} {% endblock %}
+<script type="text/javascript" src="{{STATIC_URL}}js/jquery.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/cufon.js"></script>
+<script type="text/javascript" src="{{STATIC_URL}}js/Museo_Sans_100_250.font.js"></script>
+<script>
+	Cufon.replace('.title h3');
+</script>
+
+{% block scripts %} {% endblock %}
+</head>
+{% load i18n %}
+<body>
+	<div id="header">
+		<div id="header-content">
+			<div id="nav">
+				<ul>
+                    <li><a href="/">Home</a></li>
+					<li>How it Works?</li> {% if not user.is_authenticated %}
+					<li><a href="/">Login</a><span class="arrow">&rarr;</li> {% endif %}
+				</ul>
+			</div>
+			<p class="slogan">Auction</p>
+		</div>
+	</div>
+		{% if not user.is_authenticated %}
+
+
+<style>
+	.glass {
+	width:760px;
+	}
+span.field {
+padding: 10px 33px 50px 10px;
+-moz-border-radius: 5px;
+-webkit-border-radius: 5px;
+border-radius: 5px;
+background: #E8E8E8;
+display: block;
+margin: 0 0 20px 0;
+position: relative;
+}
+</style>
+
+
+<script>
+	$(function() {
+		
+		$("input,select").focus(function() {
+			//$(this).parent().css('background-color','#A1E7FF');
+			$("span.field").not($(this).parent()).css('opacity','0.5');
+		});
+		
+		$("input,select").blur(function() {
+			//$(this).parent().css("background-color","#E8E8E8");
+			$("span.field").css('opacity','1');
+		});
+	});
+</script>
+
+	<div id="wrapper">
+		<div class="glass">
+			<div id="content">
+<div class="title">
+	<h3>Sign Up on Auction</h3>
+</div>
+
+		
+	<form enctype="multipart/form-data" method="POST" action="">
+	{% csrf_token %}
+		<p>
+			<span class="field"> 
+				<span>First Name</span>
+				<input class="inline" type="text" id="first_name" name="first_name" />
+			</span>
+			<span class="hint">
+					Your first name will be shown in your profile.
+			</span>
+		</p>
+		
+		<p>
+			<span class="field"> 
+				<span>Last Name</span>
+				<input class="inline" type="text" id="last_name" name="last_name" />
+			</span>
+			<span class="hint">
+					Your last name will be shown in your profile.
+			</span>
+		</p>
+
+		
+		<p>
+			<span class="field"> 
+				<span>Username</span>
+				<input class="inline" type="text" id="username" name="username" />
+			</span>
+			<span class="hint">This is the Username you will be using to login to Auction in the future.
+				</span>
+		</p>
+		
+		
+
+		{% if errorsUsername %}
+		<div class="input password required">
+			<font color="003300">*Username already exists please
+				choose another</font>
+		</div>
+		{% endif %}
+		
+
+
+		<p>
+			<span class="field"> 
+				<span>Choose Password</span>
+				<input class="inline" type="password" id="password1" name="password1" />
+			</span>
+				<span class="hint">Password must consist of
+					Uppercase AND Lowercase letters AND Digits
+				</span>
+		</p>
+	
+		<p>
+			<span class="field"> 
+				<span>Password Again</span>
+				<input class="inline" type="password" id="password2" name="password2" />
+			</span>
+			<span class="hint">
+				Confirm your chosen password.
+			</span>
+			
+		</p>
+		
+				
+				
+		<p>
+			<span class="field"> 
+				<span>Your Email</span>
+				<input class="inline" type="text" id="email" name="email" />
+			</span>
+			<span class="hint">Password must consist of
+					The email must be valid. It will be used to activate your account.
+			</span>
+		</p>			
+		
+		<p>
+			<span class="field"> 
+				<span>Credit Card No.</span>
+				<input class="inline" type="text" id="credit_number" name="credit_number" />
+			</span>
+				<span class="hint">Enter this if you want to
+					pay via VISA, it will be totally confiential.</span>
+		</p>
+		
+		<hr />
+		<div class="submitdiv" style="">
+			<input class="register" type="submit" value="Start using Auction &rarr;">
+		</div>
+		
+	</form>
+            </div>
+		</div>
+	</div>
+
+	{% endif %}
+</body>
+</html>
