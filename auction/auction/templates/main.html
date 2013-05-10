@@ -56,12 +56,20 @@
 	</div>
 	{% else %}
 	{% if user.is_superuser %}
+		{% autoescape on %}
+				Hello {{userprofile.first_name}}
+        {% endautoescape %}
 	{% for item in dec %}
 	    <p>
 	    {{item}}
 	    </p>
 	{% endfor %}
-		{% else %}
+        {% else %}
+
+		{% autoescape on %}
+				Hello {{userprofile.first_name}}
+        {% endautoescape %}
+        
 	Do you really want to to place bids and auction?...<div>Here is your encrypted Card Number</div> {{userprofile.credit_number}}
 		{% endif %}
 	{% endif %}

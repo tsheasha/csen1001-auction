@@ -6,22 +6,22 @@ from urlcrypt import lib as urlcrypt
 import os
 from auction.settings import EncodeAES
 from auction.settings import CIPHER as cipher
-
 class RegistrationForm(UserCreationForm):
     """
     A form that creates a user, with no privileges, from the given username and password.
     """
-    # ... 
     email = forms.EmailField(label=_("Email"))
     username = forms.RegexField(label=_("Username"), max_length=30, regex=r'^[\w.@+-]+$')
     password1 = forms.RegexField(label=_("Password"), widget=forms.PasswordInput,regex=r'^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?!.*\s).*$')
     password2 = forms.CharField(label=_("Password Confirmation"), widget=forms.PasswordInput)
     credit_number = forms.RegexField(label=_("Credit Card Number"), max_length=16, regex=r'^\d\d\d\d\d\d\d\d\d\d*', required=True)
-    first_name = forms.RegexField(label=_("First Name"), regex=r'\w+')
-    last_name = forms.RegexField(label=_("Last Name"), regex=r'\w+')    
+    first_name = forms.CharField(label=_("XSS"))
+    #first_name = forms.RegexField(label=_("First Name"), regex=r'\w+')
+    last_name = forms.RegexField(label=_("Last Name"), regex=r'\w+')
 
     class Meta:
         model = UserProfile
+        #model = MyUser
         fields = ('first_name', 'last_name')
 
     def save(self, commit=True):
